@@ -1,0 +1,6 @@
+matplotlib==3.9.2
+numpy==1.26.4
+scikit_learn==1.5.2
+seaborn==0.13.2
+torch==2.2.2
+transformers==4.45.2

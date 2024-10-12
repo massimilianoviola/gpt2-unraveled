@@ -1,24 +1,22 @@
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+import torch
+import torch.nn as nn
 
 
 os.makedirs("2_plots", exist_ok=True)
 
 ############## LayerNorm ##############
 
-def generate_data(num_points):
-    np.random.seed(42)
-    return np.random.rand(num_points, 3) * 6 - 3  # Random points in 3 dimensions, scaled up
-
-def layer_normalize(data):
-    mu = np.mean(data, axis=1, keepdims=True)
-    sigma = np.std(data, axis=1, keepdims=True)
-    return (data - mu) / sigma
+def generate_data(num_points, seed=42):
+    torch.manual_seed(seed)
+    return torch.rand(num_points, 3) * 6 - 3  # Random points in 3 dimensions, scaled up
 
 # Generate random 3D data and do layer norm
 data = generate_data(100)
-normalized_data = layer_normalize(data)
+layer_norm = nn.LayerNorm(normalized_shape=data.size()[1])
+normalized_data = layer_norm(data).detach().numpy()
 
 # Plane perpendicular to the [1, 1, 1] vector
 normal = np.array([1, 1, 1])

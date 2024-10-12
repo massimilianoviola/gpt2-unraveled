@@ -3,9 +3,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
+from transformers import GPT2Model
 
 
 os.makedirs("2_plots", exist_ok=True)
+
+model = GPT2Model.from_pretrained('gpt2')
+model.eval()
+position_embeddings = model.wpe.weight.detach()  # Word Position Embeddings
+log_std_pos = torch.log10(position_embeddings.std(dim=0))
 
 ############## LayerNorm ##############
 
@@ -52,3 +58,40 @@ ax2.view_init(azim=-45)
 ax2.legend()
 plt.tight_layout()
 plt.savefig("2_plots/01_layer_normalization_3d.jpg", dpi=250)
+
+
+gammas_ln1 = []  # Before attention layers
+gammas_ln2 = []  # Before MLPs
+
+# Collect gamma parameters for each LayerNorm layer, take abs and log
+for name, module in model.named_modules():
+    if isinstance(module, torch.nn.LayerNorm):
+        gamma = torch.log10(torch.abs(module.weight)).detach().numpy()
+        if 'ln_1' in name:
+            gammas_ln1.append(gamma)
+        elif 'ln_2' in name:
+            gammas_ln2.append(gamma)
+
+fig, axs = plt.subplots(4, 3, figsize=(12, 8))
+layer_count = 0
+for i, gamma in enumerate(gammas_ln1):
+    ax = axs[i // 3, i % 3]
+    ax.scatter(log_std_pos, gamma, alpha=0.6, color='salmon')
+    ax.set_title(f'Layer {i+1} LN1 Weights')
+    ax.set_xlabel('Log Std of Position Embeddings')
+    ax.set_ylabel('Log |Gamma| values')
+    layer_count = i
+plt.tight_layout()
+plt.savefig('2_plots/02_ln1_gammas.png', dpi=250)
+
+fig, axs = plt.subplots(4, 3, figsize=(12, 8))
+layer_count = 0
+for i, gamma in enumerate(gammas_ln2):
+    ax = axs[i // 3, i % 3]
+    ax.scatter(log_std_pos, gamma, alpha=0.6, color='mediumseagreen')
+    ax.set_title(f'Layer {i+1} LN2 Weights')
+    ax.set_xlabel('Log Std of Position Embeddings')
+    ax.set_ylabel('Log |Gamma| values')
+    layer_count = i
+plt.tight_layout()
+plt.savefig('2_plots/03_ln2_gammas.png', dpi=250)

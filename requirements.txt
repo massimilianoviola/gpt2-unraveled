@@ -4,3 +4,4 @@ scikit_learn==1.5.2
 seaborn==0.13.2
 torch==2.2.2
 transformers==4.45.2
+umap-learn==0.5.6

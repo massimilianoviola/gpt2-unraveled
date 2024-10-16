@@ -9,4 +9,6 @@ pip install -r requirements.txt
 
 ```
 python 1_explore_embeddings.py
+python 2_layers_understanding.py
+python 3_tokens_journey.py
 ```

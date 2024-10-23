@@ -2,7 +2,7 @@
 
 This project focuses on understanding the internal workings of GPT-2, providing a detailed exploration of its embedding space, layers, and processing mechanisms. The repository includes comprehensive code for dissecting these components, along with an analysis report summarizing insights into the geometric and functional behavior of GPT-2.
 
-<img src="./1_plots/10_similarity_and_combined_pca.jpg" alt="PCA" width="500" height="200"/>
+<img src="./1_plots/10_similarity_and_combined_pca.jpg" alt="PCA" width="800"/>
 
 ## 🔍 Introduction
 
@@ -58,7 +58,7 @@ In the first script, the analysis focuses on understanding how GPT-2's token emb
 - The discovery of dimensions where position embeddings are active
 - The dimensionality reduction of token and position embeddings using PCA
 
-<img src="./1_plots/07_word_position_scatter.jpg" alt="Embeddings" width="500"/>
+<img src="./1_plots/07_word_position_scatter.jpg" alt="Embeddings" width="800"/>
 
 ### Layers and Attention
 The second script dives into how the residual stream and attention heads operate within the model. Visualizations are generated for:
@@ -66,7 +66,7 @@ The second script dives into how the residual stream and attention heads operate
 - Multi-layer perceptron (MLP) behavior
 - Layer normalization's effect on the high-dimensional space
 
-<img src="./2_plots/01_layer_normalization_3d.jpg" alt="LayerNorm" width="500" height="200"/>
+<img src="./2_plots/01_layer_normalization_3d.jpg" alt="LayerNorm" width="800" height="350"/>
 
 
 ### Token Journey
